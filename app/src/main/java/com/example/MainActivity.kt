@@ -485,7 +485,7 @@ fun MapScreen(navController: NavController) {
                 Spacer(modifier = Modifier.width(8.dp))
                 Column(modifier = Modifier.weight(1f)) {
                     Text("Jornada de embarque", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                    Text("Encontre sua plataforma (Terminal Tietê)", color = Color.White.copy(alpha = 0.8f), fontSize = 12.sp)
+                    Text("Encontre sua plataforma • Terminal Tietê", color = Color.White.copy(alpha = 0.8f), fontSize = 12.sp)
                 }
             }
         }
@@ -502,74 +502,138 @@ fun MapScreen(navController: NavController) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text("Mapa do Terminal", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = ClickBusPurple)
-                    Surface(
-                        shape = RoundedCornerShape(16.dp),
-                        color = Color.White,
-                        tonalElevation = 2.dp
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                    Row {
+                        Surface(
+                            shape = RoundedCornerShape(16.dp),
+                            color = Color.White,
+                            tonalElevation = 2.dp,
+                            modifier = Modifier.clickable { }
                         ) {
-                            Icon(Icons.Filled.ZoomIn, contentDescription = "Zoom", tint = ClickBusPurple, modifier = Modifier.size(16.dp))
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Text("Zoom", fontSize = 12.sp, color = ClickBusPurple, fontWeight = FontWeight.Bold)
+                            Row(
+                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(Icons.Filled.MyLocation, contentDescription = "Centralizar", tint = ClickBusPurple, modifier = Modifier.size(16.dp))
+                            }
+                        }
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Surface(
+                            shape = RoundedCornerShape(16.dp),
+                            color = Color.White,
+                            tonalElevation = 2.dp,
+                            modifier = Modifier.clickable { }
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(Icons.Filled.ZoomIn, contentDescription = "Zoom", tint = ClickBusPurple, modifier = Modifier.size(16.dp))
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text("Zoom", fontSize = 12.sp, color = ClickBusPurple, fontWeight = FontWeight.Bold)
+                            }
                         }
                     }
                 }
                 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Map Canvas Area
+                // Animations
                 val infiniteTransition = rememberInfiniteTransition()
                 val pulseAnim by infiniteTransition.animateFloat(
                     initialValue = 10f,
-                    targetValue = 20f,
+                    targetValue = 24f,
                     animationSpec = infiniteRepeatable(
-                        animation = tween(800, easing = LinearEasing),
+                        animation = tween(1000, easing = LinearEasing),
                         repeatMode = RepeatMode.Reverse
+                    )
+                )
+                
+                val phaseAnim by infiniteTransition.animateFloat(
+                    initialValue = 0f,
+                    targetValue = -100f,
+                    animationSpec = infiniteRepeatable(
+                        animation = tween(2000, easing = LinearEasing),
+                        repeatMode = RepeatMode.Restart
                     )
                 )
 
                 Card(
-                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFE5E7EB)),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f)
-                        .padding(bottom = 140.dp) // Leave space for bottom card
+                        .padding(bottom = 160.dp) // Leave space for bottom card
                 ) {
                     Canvas(modifier = Modifier.fillMaxSize()) {
                         val canvasWidth = size.width
                         val canvasHeight = size.height
 
-                        // Draw schematic terminal structures (light lilac/gray)
-                        val structureColor = Color(0xFFEDE7F6) // very light purple
-                        val wallColor = Color(0xFFD1C4E9)
+                        // Terminal layout abstractions based on Tietê
+                        val floorColor = Color(0xFFD1D5DB) // Slightly darker gray for the floor area
+                        val platformAreaColor = Color(0xFF9CA3AF)
+                        val restroomColor = Color(0xFF93C5FD) // Blueish
+                        val shopsColor = Color(0xFFF9A8D4) // Pinkish
                         
-                        // Basic shapes for corridors/walls
+                        // Main floor area
                         drawRoundRect(
-                            color = structureColor,
-                            topLeft = Offset(canvasWidth * 0.1f, canvasHeight * 0.1f),
-                            size = Size(canvasWidth * 0.8f, canvasHeight * 0.8f),
-                            cornerRadius = CornerRadius(16f, 16f)
+                            color = floorColor,
+                            topLeft = Offset(canvasWidth * 0.1f, canvasHeight * 0.2f),
+                            size = Size(canvasWidth * 0.8f, canvasHeight * 0.7f),
+                            cornerRadius = CornerRadius(12f, 12f)
                         )
                         
-                        // Block inside
+                        // Platform Strip (North)
                         drawRoundRect(
-                            color = wallColor,
-                            topLeft = Offset(canvasWidth * 0.15f, canvasHeight * 0.15f),
-                            size = Size(canvasWidth * 0.3f, canvasHeight * 0.3f),
+                            color = platformAreaColor,
+                            topLeft = Offset(canvasWidth * 0.15f, canvasHeight * 0.1f),
+                            size = Size(canvasWidth * 0.7f, canvasHeight * 0.15f),
                             cornerRadius = CornerRadius(8f, 8f)
                         )
+                        
+                        // Restrooms (Blue Blocks)
+                        drawRoundRect(
+                            color = restroomColor,
+                            topLeft = Offset(canvasWidth * 0.15f, canvasHeight * 0.4f),
+                            size = Size(canvasWidth * 0.1f, canvasHeight * 0.1f),
+                            cornerRadius = CornerRadius(4f, 4f)
+                        )
+                        drawRoundRect(
+                            color = restroomColor,
+                            topLeft = Offset(canvasWidth * 0.75f, canvasHeight * 0.4f),
+                            size = Size(canvasWidth * 0.1f, canvasHeight * 0.1f),
+                            cornerRadius = CornerRadius(4f, 4f)
+                        )
+                        
+                        // Shops/Food (Pink Blocks)
+                        drawRoundRect(
+                            color = shopsColor,
+                            topLeft = Offset(canvasWidth * 0.25f, canvasHeight * 0.6f),
+                            size = Size(canvasWidth * 0.15f, canvasHeight * 0.2f),
+                            cornerRadius = CornerRadius(4f, 4f)
+                        )
+                        drawRoundRect(
+                            color = shopsColor,
+                            topLeft = Offset(canvasWidth * 0.6f, canvasHeight * 0.6f),
+                            size = Size(canvasWidth * 0.15f, canvasHeight * 0.2f),
+                            cornerRadius = CornerRadius(4f, 4f)
+                        )
+                        
+                        // Entry indicator
+                        drawRoundRect(
+                            color = Color.White.copy(alpha=0.5f),
+                            topLeft = Offset(canvasWidth * 0.4f, canvasHeight * 0.85f),
+                            size = Size(canvasWidth * 0.2f, canvasHeight * 0.05f),
+                            cornerRadius = CornerRadius(4f,4f)
+                        )
 
-                        // Path calculation
-                        val startPos = Offset(canvasWidth * 0.3f, canvasHeight * 0.8f)
-                        val midPos1 = Offset(canvasWidth * 0.6f, canvasHeight * 0.8f)
-                        val midPos2 = Offset(canvasWidth * 0.6f, canvasHeight * 0.4f)
-                        val endPos = Offset(canvasWidth * 0.8f, canvasHeight * 0.4f)
+                        // Path calculation (South entry -> Center -> Platform 12)
+                        val startPos = Offset(canvasWidth * 0.5f, canvasHeight * 0.85f)
+                        val midPos1 = Offset(canvasWidth * 0.5f, canvasHeight * 0.5f)
+                        val midPos2 = Offset(canvasWidth * 0.7f, canvasHeight * 0.5f)
+                        val endPos = Offset(canvasWidth * 0.7f, canvasHeight * 0.2f)
 
-                        // Draw dashed line
+                        // Draw dashed route
                         val path = Path().apply {
                             moveTo(startPos.x, startPos.y)
                             lineTo(midPos1.x, midPos1.y)
@@ -581,17 +645,17 @@ fun MapScreen(navController: NavController) {
                             path = path,
                             color = ClickBusPurple,
                             style = Stroke(
-                                width = 5f,
-                                pathEffect = PathEffect.dashPathEffect(floatArrayOf(15f, 15f), 0f),
+                                width = 6f,
+                                pathEffect = PathEffect.dashPathEffect(floatArrayOf(20f, 15f), phaseAnim),
                                 cap = StrokeCap.Round,
                                 join = StrokeJoin.Round
                             )
                         )
 
-                        // Start point with pulse
+                        // Origin Point with pulsing ring
                         drawCircle(
                             color = ClickBusPurple.copy(alpha = 0.3f),
-                            radius = pulseAnim * 1.5f,
+                            radius = pulseAnim,
                             center = startPos
                         )
                         drawCircle(
@@ -600,15 +664,15 @@ fun MapScreen(navController: NavController) {
                             center = startPos
                         )
 
-                        // End point
+                        // Destination Point (Plataforma 12)
                         drawCircle(
-                            color = ClickBusPurple.copy(alpha = 0.2f),
-                            radius = 40f,
+                            color = HighlightYellow.copy(alpha = 0.5f),
+                            radius = 24f,
                             center = endPos
                         )
                         drawCircle(
                             color = ClickBusPurple,
-                            radius = 16f,
+                            radius = 14f,
                             center = endPos
                         )
                         drawCircle(
@@ -620,11 +684,19 @@ fun MapScreen(navController: NavController) {
                     
                     // Overlay labels on Canvas
                     Box(modifier = Modifier.fillMaxSize()) {
+                        // Entrada label
+                        Text(
+                            "Acesso Metrô / Av. Cruzeiro do Sul", 
+                            color = TextGray, 
+                            fontSize = 8.sp, 
+                            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 8.dp)
+                        )
+                        
                         // "Sua Posição" label
                         Box(
                             modifier = Modifier
-                                .align(Alignment.BottomStart)
-                                .padding(start = 20.dp, bottom = 50.dp)
+                                .align(Alignment.BottomCenter)
+                                .padding(bottom = 60.dp, end = 60.dp)
                                 .background(ClickBusPurple, RoundedCornerShape(8.dp))
                                 .padding(horizontal = 8.dp, vertical = 4.dp)
                         ) {
@@ -635,11 +707,11 @@ fun MapScreen(navController: NavController) {
                         Box(
                             modifier = Modifier
                                 .align(Alignment.TopEnd)
-                                .padding(top = 90.dp, end = 20.dp)
+                                .padding(top = 40.dp, end = 20.dp)
                                 .background(ClickBusPurple, RoundedCornerShape(8.dp))
                                 .padding(horizontal = 8.dp, vertical = 4.dp)
                         ) {
-                            Text("Sua Plataforma: 12", color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                            Text("Plataforma 12 (Embarque)", color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold)
                         }
                     }
                 }
@@ -652,7 +724,7 @@ fun MapScreen(navController: NavController) {
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     LegendItem(color = ClickBusPurple, text = "Sua posição")
-                    LegendItem(color = StatusGreen, text = "Plataforma 12")
+                    LegendItem(color = HighlightYellow, text = "Plataforma 12")
                     LegendItem(color = ClickBusPurple, text = "Rota")
                 }
             }
@@ -678,7 +750,7 @@ fun MapScreen(navController: NavController) {
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
+                            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.weight(1f)) {
                                 Box(
                                     modifier = Modifier
                                         .background(AppBackground, CircleShape)
@@ -687,10 +759,7 @@ fun MapScreen(navController: NavController) {
                                     Icon(Icons.Filled.LocationOn, contentDescription = "Location", tint = ClickBusPurple)
                                 }
                                 Spacer(modifier = Modifier.width(12.dp))
-                                Column {
-                                    Text("Plataforma 12", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = ClickBusPurple)
-                                    Text("~3 minutos a pé", color = TextGray, fontSize = 12.sp)
-                                }
+                                Text("Plataforma 12 • ~3 min a pé (210m)", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = ClickBusPurple)
                             }
                             
                             Box(
@@ -700,6 +769,14 @@ fun MapScreen(navController: NavController) {
                             ) {
                                 Text("Baixa ocupação", color = StatusGreen, fontSize = 10.sp, fontWeight = FontWeight.Bold)
                             }
+                        }
+
+                        Spacer(modifier = Modifier.height(12.dp))
+                        
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Filled.DirectionsBus, contentDescription = "Bus", tint = StatusGreen, modifier = Modifier.size(16.dp))
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Ônibus encostado • Viação 1001 • Saída 18:57", color = TextGray, fontSize = 12.sp, fontWeight = FontWeight.Medium)
                         }
 
                         Spacer(modifier = Modifier.height(20.dp))
@@ -712,7 +789,7 @@ fun MapScreen(navController: NavController) {
                             colors = ButtonDefaults.buttonColors(containerColor = ClickBusPurple),
                             shape = RoundedCornerShape(16.dp)
                         ) {
-                            Text("Validar Embarque", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                            Text("Validar Embarque no Totem / Portão", fontSize = 14.sp, fontWeight = FontWeight.Bold)
                         }
                     }
                 }
