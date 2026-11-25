@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --purple: #6a1b9a;
+        --purple-light: #8e24aa;
+        --purple-dark: #4a148c;
+        --purple-deep: #2e0a5c;
+        --yellow: #ffcc00;
+        --white: #ffffff;
+        --paper: #f6f3fa;
+        --ink: #1e1230;
+        --gray: #5f586c;
+        --alert: #bf360c;
+        --font-display: "Montserrat", sans-serif;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--purple-dark); }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; font-family: var(--font-display); }
+      .scene { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; }
+      .bg-purple { background: radial-gradient(circle at 32% 38%, var(--purple-light) 0%, var(--purple) 38%, var(--purple-dark) 72%, var(--purple-deep) 100%); color: var(--white); }
+      .bg-deep { background: radial-gradient(circle at 70% 30%, #4a148c 0%, #2a0e4f 60%, #1c0838 100%); color: var(--white); }
+      .bg-paper { background: var(--paper); color: var(--ink); }
+      .center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+      .abs { position: absolute; }
+      .kicker { font-size: 28px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+      .yellow { color: var(--yellow); }
+      .purple { color: var(--purple); }
+      .gray { color: var(--gray); }
+
+      /* Cena 1: vinheta */
+      #glow { position: absolute; left: 50%; top: 50%; width: 1100px; height: 1100px; margin: -550px 0 0 -550px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 62%); }
+      #lockup { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 56px; padding: 120px 160px; }
+      #mark { display: block; width: 330px; height: 424px; flex: none; overflow: visible; }
+      #text { display: flex; flex-direction: column; align-items: flex-start; }
+      #word { display: flex; overflow: hidden; font-size: 216px; font-weight: 900; line-height: 1; letter-spacing: -0.035em; color: var(--white); padding: 0.04em 0.04em 0.26em 0; }
+      #word span { display: block; }
+      #underline { width: 100%; height: 14px; margin-top: -18px; border-radius: 7px; background: var(--yellow); }
+      #ripple-a, #ripple-b { opacity: 0; }
+      #tagline { margin-top: 34px; font-size: 46px; font-weight: 700; color: var(--white); }
+
+      /* Cena 2 */
+      #g-l1 { left: 150px; top: 190px; width: 1500px; font-size: 84px; font-weight: 800; line-height: 1.15; }
+      #g-l2 { left: 150px; top: 520px; width: 1640px; font-size: 112px; font-weight: 900; line-height: 1.1; letter-spacing: -0.01em; }
+      #g-l2 .w { display: inline-block; }
+
+      /* Cena 3 */
+      #p-head { left: 0; top: 84px; width: 1920px; text-align: center; }
+      #p-pin { left: 835px; top: 415px; width: 250px; height: 250px; border-radius: 50%; }
+      .bubble { position: absolute; background: var(--white); border-radius: 40px; padding: 32px 44px; font-size: 46px; font-weight: 700; color: var(--ink); box-shadow: 0 16px 46px rgba(60, 20, 100, 0.16); white-space: nowrap; }
+      #p-b1 { left: 130px; top: 240px; }
+      #p-b2 { left: 1095px; top: 480px; }
+      #p-b3 { left: 250px; top: 780px; }
+
+      /* Cenas 4 e 10 */
+      .card-title { font-size: 86px; font-weight: 800; line-height: 1.15; margin-top: 44px; max-width: 1560px; }
+      .card-note { font-size: 42px; font-weight: 500; margin-top: 46px; opacity: 0.88; }
+
+      /* Cena 5 */
+      #s-col { left: 140px; top: 250px; width: 980px; }
+      #s-word { font-size: 170px; font-weight: 900; line-height: 1; letter-spacing: -0.035em; margin-top: 18px; }
+      #s-tag { font-size: 50px; font-weight: 700; margin-top: 22px; }
+      #s-pills { display: flex; gap: 26px; margin-top: 64px; }
+      .pill { border-radius: 99px; padding: 18px 42px; font-size: 46px; font-weight: 800; background: var(--white); color: var(--purple); box-shadow: 0 10px 30px rgba(60, 20, 100, 0.14); }
+
+      /* Celular */
+      #phone { position: absolute; left: 0; top: 96px; width: 412px; height: 888px; border-radius: 52px; background: #1b1326; padding: 12px; box-shadow: 0 30px 80px rgba(40, 10, 70, 0.32); z-index: 50; opacity: 0; }
+      #screen { position: relative; width: 388px; height: 864px; border-radius: 40px; overflow: hidden; background: #f7f7fb; }
+      #screen img, #screen video { position: absolute; left: 0; top: 0; width: 388px; height: 864px; object-fit: cover; }
+      .still { opacity: 0; }
+
+      /* Cenas 6 a 9 */
+      .demo-col { position: absolute; left: 860px; top: 270px; width: 940px; }
+      .step { display: inline-block; background: var(--purple); color: var(--white); border-radius: 99px; padding: 10px 30px; font-size: 28px; font-weight: 700; letter-spacing: 0.1em; }
+      .demo-title { font-size: 112px; font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; margin-top: 30px; }
+      .demo-cap { font-size: 52px; font-weight: 500; line-height: 1.32; margin-top: 30px; }
+      #d7-col { top: 150px; }
+      #d7-alert { display: block; width: 920px; height: 198px; margin-top: 40px; border-radius: 30px; box-shadow: 0 22px 60px rgba(191, 54, 12, 0.3); }
+
+      /* Cena 11 */
+      #v-title { left: 0; top: 130px; width: 1920px; text-align: center; font-size: 72px; font-weight: 800; }
+      #v-grid { left: 110px; top: 360px; width: 1700px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+      .card { background: var(--white); border-radius: 40px; padding: 70px 54px; min-height: 470px; box-shadow: 0 16px 46px rgba(60, 20, 100, 0.12); text-align: left; }
+      .card .big { font-size: 56px; font-weight: 700; line-height: 1.25; margin-top: 26px; }
+
+      /* Cena 12 */
+      #n-head { left: 140px; top: 120px; width: 1640px; }
+      #n-title { font-size: 80px; font-weight: 800; margin-top: 14px; }
+      #n-grid { left: 140px; top: 400px; width: 1640px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+      .item { background: var(--white); border-radius: 36px; padding: 52px 48px; box-shadow: 0 16px 46px rgba(60, 20, 100, 0.12); font-size: 50px; font-weight: 700; display: flex; align-items: center; gap: 30px; }
+      .num { flex: none; width: 76px; height: 76px; border-radius: 50%; background: var(--purple); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 800; }
+
+      /* Cena 13 */
+      #e-row { display: flex; align-items: center; gap: 48px; }
+      #e-mark { width: 230px; height: 230px; border-radius: 50%; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); }
+      #e-word { font-size: 190px; font-weight: 900; line-height: 1; letter-spacing: -0.035em; }
+      #e-line { width: 220px; height: 12px; border-radius: 6px; background: var(--yellow); margin-top: 40px; }
+      #e-tag { font-size: 52px; font-weight: 700; margin-top: 36px; }
+      #e-foot { margin-top: 70px; opacity: 0.8; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="120" data-fps="60" data-width="1920" data-height="1080">
+      <!-- 1 Abertura 0–5 -->
+      <div id="s1" class="scene clip bg-purple" data-start="0" data-duration="5" data-track-index="0" style="z-index: 1">
+        <div id="glow"></div>
+        <div id="lockup">
+          <svg id="mark" viewBox="26 20 56 72" xmlns="http://www.w3.org/2000/svg" aria-label="Logo do Boardly">
+            <ellipse id="ripple-a" cx="54" cy="82.5" rx="11" ry="3" fill="none" stroke="var(--yellow)" stroke-width="0.9" />
+            <ellipse id="ripple-b" cx="54" cy="82.5" rx="11" ry="3" fill="none" stroke="var(--yellow)" stroke-width="0.9" />
+            <ellipse id="ground" cx="54" cy="82.5" rx="11" ry="3" fill="var(--yellow)" />
+            <g id="pin">
+              <path d="M54,82 L37.37,57.11 A20,20 0 1 1 70.63,57.11 Z" fill="var(--white)" stroke="var(--white)" stroke-width="2" stroke-linejoin="round" />
+              <g id="bus">
+                <rect x="46.5" y="53" width="3.6" height="4" rx="1" fill="var(--purple)" />
+                <rect x="57.9" y="53" width="3.6" height="4" rx="1" fill="var(--purple)" />
+                <rect x="44.5" y="35.5" width="19" height="19.5" rx="3.5" fill="var(--purple)" />
+                <rect x="48" y="39.5" width="12" height="6.5" rx="1.6" fill="var(--white)" />
+                <circle class="light" cx="48.6" cy="50.6" r="1.6" fill="var(--yellow)" />
+                <circle class="light" cx="59.4" cy="50.6" r="1.6" fill="var(--yellow)" />
+              </g>
+            </g>
+          </svg>
+          <div id="text">
+            <div id="word" data-layout-allow-overflow="true"><span>B</span><span>o</span><span>a</span><span>r</span><span>d</span><span>l</span><span>y</span></div>
+            <div id="underline"></div>
+            <div id="tagline">Do bilhete ao portão de embarque</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 Gancho 5–13 -->
+      <div id="s2" class="scene clip bg-deep" data-start="4.5" data-duration="8.5" data-track-index="1" style="z-index: 2">
+        <div id="g-l1" class="abs">A passagem já está<br />no celular.</div>
+        <div id="g-l2" class="abs"><span class="w">O</span> <span class="w">embarque</span> <span class="w">ainda</span> <span class="w">depende</span> <span class="w">do</span> <span class="w yellow">painel</span> <span class="w yellow">do</span> <span class="w yellow">terminal.</span></div>
+      </div>
+
+      <!-- 3 Problema 13–25 -->
+      <div id="s3" class="scene clip bg-paper" data-start="12.5" data-duration="12.5" data-track-index="0" style="z-index: 3">
+        <div id="p-head" class="abs kicker purple">No terminal, o passageiro fica sem resposta</div>
+        <img id="p-pin" class="abs" src="assets/boardly-icon-round.svg" alt="" />
+        <div id="p-b1" class="bubble">Qual é a minha plataforma?</div>
+        <div id="p-b2" class="bubble">Mudou e ninguém me avisou.</div>
+        <div id="p-b3" class="bubble">Para que lado fica o portão?</div>
+      </div>
+
+      <!-- 4 Desafio 25–32 -->
+      <div id="s4" class="scene clip bg-purple" data-start="24.5" data-duration="7.5" data-track-index="1" style="z-index: 4">
+        <div class="center">
+          <div id="c-kick" class="kicker yellow">Challenge ClickBus 2026 · O desafio</div>
+          <div id="c-title" class="card-title">Conectar o mundo digital (app) com o mundo físico (terminal rodoviário).</div>
+        </div>
+      </div>
+
+      <!-- 5 Solução 32–40 -->
+      <div id="s5" class="scene clip bg-paper" data-start="31.5" data-duration="8.5" data-track-index="0" style="z-index: 5">
+        <div id="s-col" class="abs">
+          <div id="s-kick" class="kicker purple">A solução</div>
+          <div id="s-word" class="purple">Boardly</div>
+          <div id="s-tag">Do bilhete ao portão de embarque.</div>
+          <div id="s-pills"><span class="pill">acompanha</span><span class="pill">avisa</span><span class="pill">guia</span></div>
+        </div>
+      </div>
+
+      <!-- 6 Demo: acompanhar 40–51 -->
+      <div id="s6" class="scene clip bg-paper" data-start="39.5" data-duration="11.5" data-track-index="1" style="z-index: 6">
+        <div id="d6-col" class="demo-col">
+          <span class="step">1 DE 4</span>
+          <div class="demo-title purple">Acompanhar</div>
+          <div class="demo-cap gray">Viagem do dia, etapas do embarque e minutos para a saída.</div>
+        </div>
+      </div>
+
+      <!-- 7 Demo: avisar 51–63 -->
+      <div id="s7" class="scene clip bg-paper" data-start="50.5" data-duration="12.5" data-track-index="0" style="z-index: 7">
+        <div id="d7-col" class="demo-col">
+          <span class="step" style="background: var(--alert)">2 DE 4</span>
+          <div class="demo-title" style="color: var(--alert)">Avisar</div>
+          <img id="d7-alert" src="assets/telas/alerta.jpg" alt="Alerta: plataforma alterada de 12 para 14" />
+          <div id="d7-cap" class="demo-cap gray">O terminal mudou a plataforma. O app avisa na hora, em todas as telas.</div>
+        </div>
+      </div>
+
+      <!-- 8 Demo: guiar 63–76 -->
+      <div id="s8" class="scene clip bg-paper" data-start="62.5" data-duration="13.5" data-track-index="1" style="z-index: 8">
+        <div id="d8-col" class="demo-col">
+          <span class="step">3 DE 4</span>
+          <div class="demo-title purple">Guiar</div>
+          <div class="demo-cap gray">Você está aqui. A rota leva até a plataforma certa.</div>
+        </div>
+      </div>
+
+      <!-- 9 Demo: embarcar 76–88 -->
+      <div id="s9" class="scene clip bg-paper" data-start="75.5" data-duration="12.5" data-track-index="0" style="z-index: 9">
+        <div id="d9-col" class="demo-col">
+          <span class="step">4 DE 4</span>
+          <div class="demo-title purple">Embarcar</div>
+          <div class="demo-cap gray">Bilhete pronto para o totem ou o motorista. Embarque confirmado.</div>
+        </div>
+      </div>
+
+      <!-- Celular com as gravações reais do app (cenas 5 a 9) -->
+      <div id="phone">
+        <div id="screen">
+          <img id="st5" class="still" src="assets/inicio.jpg" alt="" />
+          <img id="st6" class="still" src="assets/s6-fim.jpg" alt="" />
+          <img id="st7" class="still" src="assets/s7-fim.jpg" alt="" />
+          <img id="st8" class="still" src="assets/s8-fim.jpg" alt="" />
+          <img id="st9" class="still" src="assets/s9-fim.jpg" alt="" />
+          <video id="vid6" class="clip" src="assets/s6.mp4" muted playsinline data-start="40" data-duration="9" data-track-index="2"></video>
+          <video id="vid7" class="clip" src="assets/s7.mp4" muted playsinline data-start="51" data-duration="12" data-track-index="2"></video>
+          <video id="vid8" class="clip" src="assets/s8.mp4" muted playsinline data-start="63" data-duration="12.9" data-track-index="2"></video>
+          <video id="vid9" class="clip" src="assets/s9.mp4" muted playsinline data-start="76" data-duration="11.3" data-track-index="2"></video>
+        </div>
+      </div>
+
+      <!-- 10 Como foi feito 88–96 -->
+      <div id="s10" class="scene clip bg-purple" data-start="87.5" data-duration="8.5" data-track-index="1" style="z-index: 60">
+        <div class="center">
+          <div id="m-kick" class="kicker yellow">Como foi feito</div>
+          <div id="m-title" class="card-title">MVP Android em Kotlin e Jetpack Compose.</div>
+          <div id="m-note" class="card-note">Nesta versão, os eventos do terminal são simulados.</div>
+        </div>
+      </div>
+
+      <!-- 11 Valor 96–106 -->
+      <div id="s11" class="scene clip bg-paper" data-start="95.5" data-duration="10.5" data-track-index="0" style="z-index: 61">
+        <div id="v-title" class="abs purple">Valor para quem está no terminal</div>
+        <div id="v-grid" class="abs">
+          <div class="card vc"><div class="kicker purple">Passageiro</div><div class="big">Sabe para onde ir e o que mudou.</div></div>
+          <div class="card vc"><div class="kicker purple">Terminal</div><div class="big">A informação chega a quem precisa.</div></div>
+          <div class="card vc"><div class="kicker purple">ClickBus</div><div class="big">O app continua útil depois da compra.</div></div>
+        </div>
+      </div>
+
+      <!-- 12 Próximos passos 106–114 -->
+      <div id="s12" class="scene clip bg-paper" data-start="105.5" data-duration="8.5" data-track-index="1" style="z-index: 62">
+        <div id="n-head" class="abs">
+          <div class="kicker purple">Próximos passos</div>
+          <div id="n-title" class="purple">Do protótipo ao terminal</div>
+        </div>
+        <div id="n-grid" class="abs">
+          <div class="item ni"><span class="num">1</span>Dados do terminal em tempo real</div>
+          <div class="item ni"><span class="num">2</span>QR do bilhete lido pelo totem</div>
+          <div class="item ni"><span class="num">3</span>Notificações de troca de plataforma</div>
+          <div class="item ni"><span class="num">4</span>Mapa real do terminal</div>
+        </div>
+      </div>
+
+      <!-- 13 Encerramento 114–120 -->
+      <div id="s13" class="scene clip bg-purple" data-start="113.5" data-duration="6.5" data-track-index="0" style="z-index: 63">
+        <div class="center">
+          <div id="e-row">
+            <img id="e-mark" src="assets/boardly-icon-round.svg" alt="" />
+            <div id="e-word">Boardly</div>
+          </div>
+          <div id="e-line"></div>
+          <div id="e-tag">Do bilhete ao portão de embarque</div>
+          <div id="e-foot" class="kicker">Challenge ClickBus 2026 · FIAP</div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        const up = (sel, t, y = 46, d = 0.75, extra = {}) =>
+          tl.fromTo(sel, { autoAlpha: 0, y }, { autoAlpha: 1, y: 0, duration: d, ease: "power3.out", ...extra }, t);
+        const pop = (sel, t, extra = {}) =>
+          tl.fromTo(sel, { autoAlpha: 0, scale: 0.7 }, { autoAlpha: 1, scale: 1, duration: 0.6, ease: "back.out(1.7)", ...extra }, t);
+        const fadeIn = (sel, t) => tl.fromTo(sel, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "none" }, t);
+
+        // Fusão de entrada de cada cena sobre a anterior.
+        [[2, 5], [3, 13], [4, 25], [5, 32], [6, 40], [7, 51], [8, 63], [9, 76], [10, 88], [11, 96], [12, 106], [13, 114]].forEach(([n, s]) =>
+          fadeIn("#s" + n, s - 0.5)
+        );
+
+        // 1. Abertura: vinheta da logo.
+        const PIN_TIP = "54 82";
+        const GROUND = "54 82.5";
+        const LAND = 0.75;
+        const DROP = 0.6;
+        const centerOffset = ((document.getElementById("text").offsetWidth || 890) + 56) / 2;
+        tl.fromTo("#glow", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 1.4, ease: "power2.out" }, 0);
+        tl.fromTo("#ground", { scale: 0, svgOrigin: GROUND }, { scale: 1, svgOrigin: GROUND, duration: 0.45, ease: "back.out(2)" }, 0.05);
+        tl.fromTo("#pin", { y: -90, autoAlpha: 0, scaleX: 0.93, scaleY: 1.12, svgOrigin: PIN_TIP }, { y: 0, duration: DROP, ease: "power2.in" }, LAND - DROP);
+        tl.to("#pin", { autoAlpha: 1, duration: 0.14, ease: "none" }, LAND - DROP);
+        tl.to("#pin", { scaleX: 1.14, scaleY: 0.82, svgOrigin: PIN_TIP, duration: 0.1, ease: "power2.out" }, LAND);
+        tl.to("#pin", { scaleX: 1, scaleY: 1, svgOrigin: PIN_TIP, duration: 0.9, ease: "elastic.out(1, 0.45)" }, LAND + 0.1);
+        tl.to("#ground", { scale: 1.3, svgOrigin: GROUND, duration: 0.1, ease: "power2.out" }, LAND);
+        tl.to("#ground", { scale: 1, svgOrigin: GROUND, duration: 0.6, ease: "elastic.out(1, 0.5)" }, LAND + 0.1);
+        tl.fromTo("#ripple-a", { scale: 1, opacity: 0.95, svgOrigin: GROUND }, { scale: 3.4, opacity: 0, svgOrigin: GROUND, duration: 1.1, ease: "power2.out", immediateRender: false }, LAND);
+        tl.fromTo("#ripple-b", { scale: 1, opacity: 0.8, svgOrigin: GROUND }, { scale: 2.6, opacity: 0, svgOrigin: GROUND, duration: 1.1, ease: "power2.out", immediateRender: false }, LAND + 0.2);
+        tl.fromTo("#bus", { scale: 0, svgOrigin: "54 46" }, { scale: 1, svgOrigin: "54 46", duration: 0.6, ease: "back.out(2)" }, LAND + 0.15);
+        tl.fromTo(".light", { scale: 1, transformOrigin: "50% 50%" }, { scale: 1.8, transformOrigin: "50% 50%", duration: 0.14, ease: "sine.inOut", yoyo: true, repeat: 3 }, LAND + 0.6);
+        const REVEAL = 1.5;
+        tl.fromTo("#mark", { x: centerOffset }, { x: 0, duration: 0.95, ease: "power3.inOut" }, REVEAL);
+        tl.fromTo("#word span", { yPercent: 125 }, { yPercent: 0, duration: 0.85, ease: "power4.out", stagger: 0.055 }, REVEAL + 0.5);
+        tl.fromTo("#underline", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, transformOrigin: "0% 50%", duration: 0.8, ease: "power3.out" }, REVEAL + 0.95);
+        tl.fromTo("#tagline", { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 0.7, ease: "power3.out" }, REVEAL + 1.15);
+        tl.to("#pin", { y: -2.4, duration: 0.6, ease: "sine.inOut" }, 3.1);
+        tl.to("#pin", { y: 0, duration: 0.6, ease: "sine.inOut" }, 3.7);
+        tl.to("#glow", { scale: 1.1, duration: 2.5, ease: "sine.inOut" }, 2.5);
+
+        // 2. Gancho.
+        up("#g-l1", 5.1, 50);
+        tl.to("#g-l1", { opacity: 0.5, duration: 0.6, ease: "power2.out" }, 7.5);
+        tl.fromTo("#g-l2 .w", { autoAlpha: 0, y: 60 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power3.out", stagger: 0.13 }, 7.7);
+        tl.to("#g-l2", { scale: 1.03, transformOrigin: "0% 50%", duration: 3.6, ease: "sine.inOut" }, 9.2);
+
+        // 3. Problema: as dúvidas cercam o passageiro.
+        up("#p-head", 13.1, 24);
+        pop("#p-pin", 13.4);
+        pop("#p-b1", 14.6);
+        pop("#p-b2", 16.9);
+        pop("#p-b3", 19.2);
+        tl.to("#p-b1", { x: 90, y: 50, duration: 2.6, ease: "power2.inOut" }, 21.6);
+        tl.to("#p-b2", { x: 0, y: -24, duration: 2.6, ease: "power2.inOut" }, 21.6);
+        tl.to("#p-b3", { x: 110, y: -60, duration: 2.6, ease: "power2.inOut" }, 21.6);
+        tl.to("#p-pin", { scale: 0.88, duration: 2.6, ease: "power2.inOut" }, 21.6);
+
+        // 4. Desafio.
+        up("#c-kick", 25.1, 24);
+        up("#c-title", 25.4, 60, 0.95);
+
+        tl.to("#c-title", { scale: 1.035, duration: 5.4, ease: "sine.inOut" }, 26.4);
+
+        // 5. Solução: o celular sobe pela direita.
+        up("#s-kick", 32.1, 24);
+        up("#s-word", 32.3, 60, 0.9);
+        up("#s-tag", 32.8, 30);
+        tl.fromTo("#s-pills .pill", { autoAlpha: 0, scale: 0.7 }, { autoAlpha: 1, scale: 1, duration: 0.55, ease: "back.out(1.8)", stagger: 1.1 }, 33.8);
+        tl.set("#st5", { opacity: 1 }, 31.9);
+        tl.fromTo("#phone", { opacity: 0, x: 1260, y: 240, rotation: 5 }, { opacity: 1, y: 0, rotation: 0, duration: 1.1, ease: "power3.out" }, 32.2);
+
+        // 6 a 9. Demonstração: o celular vai para a esquerda e as gravações tocam.
+        tl.to("#phone", { x: 300, duration: 1.1, ease: "power3.inOut" }, 39.4);
+        up("#d6-col", 40.4, 40);
+        tl.set("#st6", { opacity: 1 }, 48.8);
+        up("#d7-col .step", 51.1, 24);
+        up("#d7-col .demo-title", 51.3, 40);
+        tl.fromTo("#d7-alert", { autoAlpha: 0, x: -420, scale: 0.42, transformOrigin: "0% 50%" }, { autoAlpha: 1, x: 0, scale: 1, duration: 0.9, ease: "back.out(1.3)" }, 53.3);
+        up("#d7-cap", 54.3, 30);
+        tl.to("#d7-alert", { scale: 1.04, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 3 }, 57);
+        tl.set("#st7", { opacity: 1 }, 62.8);
+        up("#d8-col", 63.4, 40);
+        tl.set("#st8", { opacity: 1 }, 75.7);
+        up("#d9-col", 76.4, 40);
+        tl.set("#st9", { opacity: 1 }, 87.1);
+        tl.set("#phone", { opacity: 0 }, 88.2);
+
+        // 10. Como foi feito.
+        up("#m-kick", 88.1, 24);
+        up("#m-title", 88.4, 60, 0.95);
+        up("#m-note", 90.2, 30);
+
+        tl.to("#m-title", { scale: 1.035, duration: 6.4, ease: "sine.inOut" }, 89.4);
+
+        // 11. Valor.
+        up("#v-title", 96.1, 30);
+        tl.fromTo(".vc", { autoAlpha: 0, y: 80 }, { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 1.3 }, 96.9);
+
+        tl.to(".vc", { y: -14, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: 0.5 }, 100.6);
+
+        // 12. Próximos passos.
+        up("#n-head", 106.1, 30);
+        tl.fromTo(".ni", { autoAlpha: 0, x: -60 }, { autoAlpha: 1, x: 0, duration: 0.7, ease: "power3.out", stagger: 0.9 }, 106.9);
+
+        tl.to(".ni .num", { scale: 1.18, duration: 0.45, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: 0.5 }, 110.5);
+
+        // 13. Encerramento.
+        pop("#e-mark", 114.1);
+        up("#e-word", 114.3, 60, 0.9);
+        tl.fromTo("#e-line", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power3.out" }, 114.9);
+        up("#e-tag", 115.1, 30);
+        up("#e-foot", 115.7, 20);
+        tl.to("#e-mark", { y: -10, duration: 1.1, ease: "sine.inOut", yoyo: true, repeat: 3 }, 115.4);
+
+        window.__timelines["main"] = tl;
+        tl.seek(0);
+      });
+    </script>
+  </body>
+</html>

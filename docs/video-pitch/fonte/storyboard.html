@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boardly — storyboard do vídeo pitch v1</title>
+<style>
+:root{--roxo:#6A1B9A;--roxo-esc:#4A148C;--roxo-claro:#8E24AA;--amarelo:#FFCC00;--fundo:#F6F3FA;--tinta:#1E1230;--cinza:#6B6478;--alerta:#BF360C;
+  --f:"Montserrat","Avenir Next","Helvetica Neue",Arial,sans-serif}
+*{box-sizing:border-box;margin:0}
+body{font-family:var(--f);background:#17111f;color:#efeaf6;padding:40px 32px 80px}
+header{max-width:1500px;margin:0 auto 28px}
+h1{font-size:30px;font-weight:800}h1 span{color:var(--amarelo);font-size:16px;margin-left:10px}
+.dek{margin-top:8px;color:#bdb3cc;font-size:15px;max-width:900px;line-height:1.5}
+.tag{display:inline-block;margin-top:12px;padding:5px 12px;border:1px solid #4b3d5f;border-radius:99px;font-size:12px;color:#d8cfe6}
+.ato{max-width:1500px;margin:34px auto 14px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--amarelo);border-top:1px solid #3a2e4b;padding-top:12px}
+.grid{max-width:1500px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:26px 22px}
+@media(max-width:1000px){.grid{grid-template-columns:1fr}}
+.cell{aspect-ratio:16/9;container-type:inline-size;position:relative;overflow:hidden;border-radius:8px;background:var(--fundo);color:var(--tinta)}
+.roxo{background:linear-gradient(135deg,var(--roxo-claro),var(--roxo-esc));color:#fff}
+.escuro{background:#2A0E4F;color:#fff}
+.lbl{display:flex;justify-content:space-between;margin-top:9px;font-size:12px;font-weight:700;letter-spacing:.06em}
+.lbl span:last-child{color:#9f93b3;font-weight:500}
+.nota{margin-top:6px;font-size:12.5px;line-height:1.5;color:#c9c0d8}
+.chip{display:inline-block;margin-top:7px;font-size:10.5px;padding:3px 9px;border-radius:99px;background:#2b2138;color:#d9cfea}
+.abs{position:absolute}
+.c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.t1{font-weight:900;font-size:6.2cqw;line-height:1.08;letter-spacing:-.01em}
+.t2{font-weight:800;font-size:4.2cqw;line-height:1.15}
+.t3{font-weight:700;font-size:2.5cqw;line-height:1.3}
+.p{font-weight:500;font-size:2.1cqw;line-height:1.4}
+.sm{font-weight:700;font-size:1.45cqw;letter-spacing:.16em;text-transform:uppercase}
+.am{color:var(--amarelo)}.rx{color:var(--roxo)}.cz{color:var(--cinza)}
+.fone{position:absolute;height:50cqw;aspect-ratio:1080/2400;border-radius:2.6cqw;overflow:hidden;border:.7cqw solid #1b1326;box-shadow:0 1.5cqw 4cqw rgba(40,10,70,.3);background:#000}
+.fone img{width:100%;height:100%;object-fit:cover;display:block}
+.passo{display:inline-block;background:var(--roxo);color:#fff;border-radius:99px;padding:.5cqw 1.5cqw;font-size:1.45cqw;font-weight:700;letter-spacing:.1em}
+.balao{position:absolute;background:#fff;border-radius:2cqw;padding:1.6cqw 2.2cqw;font-weight:700;font-size:2.5cqw;box-shadow:0 .8cqw 2.4cqw rgba(60,20,100,.16);color:var(--tinta)}
+.card{background:#fff;border-radius:2cqw;padding:3.4cqw 2.6cqw;box-shadow:0 .8cqw 2.4cqw rgba(60,20,100,.12);text-align:left}
+.pill{display:inline-block;border-radius:99px;padding:.8cqw 2cqw;font-weight:800;font-size:2.3cqw;background:#fff;color:var(--roxo);box-shadow:0 .5cqw 1.5cqw rgba(60,20,100,.14)}
+.extra{background:#211830;color:#e9e2f3;padding:20px;aspect-ratio:auto;font-size:13px;line-height:1.7;border-radius:8px}
+.sw{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Boardly — vídeo pitch <span>storyboard v1</span></h1>
+  <p class="dek">O Boardly leva o passageiro do bilhete ao portão de embarque e avisa na hora quando o terminal muda a plataforma. Cada quadro mostra o momento principal da cena, parado. O movimento entra na montagem.</p>
+  <span class="tag">1920×1080 · cerca de 2 min (126 s) · 13 cenas · sem voz · trilha instrumental</span>
+</header>
+
+<div class="ato">Ato 1 · O problema (0:00–0:32)</div>
+<div class="grid">
+
+<div><div class="cell roxo" id="frame-01">
+  <div class="c" style="flex-direction:row;gap:3cqw">
+    <img src="assets/boardly-icon-round.svg" style="width:17cqw;border-radius:50%;box-shadow:0 1cqw 3cqw rgba(0,0,0,.3)">
+    <div style="text-align:left"><div class="t1" style="font-size:9cqw">Boardly</div><div style="width:9cqw;height:.7cqw;background:var(--amarelo);border-radius:9px;margin:1.2cqw 0"></div><div class="p" style="font-size:2.3cqw">Do bilhete ao portão de embarque</div></div>
+  </div></div>
+  <div class="lbl"><span>01 · ABERTURA</span><span>0:00–0:05</span></div>
+  <p class="nota"><b>O pin cai primeiro.</b> É a vinheta que já está pronta, sem mudanças.</p><span class="chip">saída: fusão</span></div>
+
+<div><div class="cell escuro" id="frame-02">
+  <div class="abs" style="left:8cqw;top:11cqw;right:8cqw;text-align:left"><div class="t2" style="opacity:.75">A passagem já está<br>no celular.</div></div>
+  <div class="abs" style="left:8cqw;bottom:10cqw;right:6cqw;text-align:left"><div class="t1" style="font-size:5.6cqw">O embarque ainda depende do <span class="am">painel do terminal.</span></div></div>
+  </div>
+  <div class="lbl"><span>02 · GANCHO</span><span>0:05–0:13</span></div>
+  <p class="nota"><b>A primeira frase entra e recua.</b> A segunda ocupa a tela, com "painel do terminal" em amarelo.</p><span class="chip">saída: fusão</span></div>
+
+<div><div class="cell" id="frame-03">
+  <div class="abs sm rx" style="left:0;right:0;top:4cqw;text-align:center">No terminal, o passageiro fica sem resposta</div>
+  <div class="c"><img src="assets/boardly-icon-round.svg" style="width:13cqw;border-radius:50%"></div>
+  <div class="balao" style="left:5cqw;top:14cqw">Qual é a minha plataforma?</div>
+  <div class="balao" style="right:4cqw;top:22cqw">Mudou e ninguém me avisou.</div>
+  <div class="balao" style="left:12cqw;bottom:7cqw">Para que lado fica o portão?</div>
+  </div>
+  <div class="lbl"><span>03 · PROBLEMA</span><span>0:13–0:25</span></div>
+  <p class="nota"><b>As três dúvidas surgem uma a uma</b> e se aproximam do passageiro no centro. Sem números nem percentuais.</p><span class="chip">saída: fusão</span></div>
+
+<div><div class="cell roxo" id="frame-04">
+  <div class="c" style="padding:0 9cqw"><div class="sm am">Challenge ClickBus 2026 · O desafio</div>
+  <div class="t2" style="margin-top:2.5cqw;font-size:4.4cqw">Conectar o mundo digital (app) com o mundo físico (terminal rodoviário).</div></div>
+  </div>
+  <div class="lbl"><span>04 · DESAFIO</span><span>0:25–0:32</span></div>
+  <p class="nota"><b>Um único movimento:</b> a frase do regulamento sobe e fica parada. É a pausa do vídeo.</p><span class="chip">saída: fusão</span></div>
+</div>
+
+<div class="ato">Ato 2 · A solução e a demonstração (0:32–1:34)</div>
+<div class="grid">
+
+<div><div class="cell" id="frame-05">
+  <div class="abs" style="left:7cqw;top:12cqw;width:48cqw;text-align:left"><div class="sm rx">A solução</div><div class="t1 rx" style="font-size:8cqw;margin-top:1cqw">Boardly</div><div class="t3" style="margin-top:1cqw">Do bilhete ao portão de embarque.</div>
+  <div style="margin-top:3.2cqw;display:flex;gap:1.4cqw"><span class="pill">acompanha</span><span class="pill">avisa</span><span class="pill">guia</span></div></div>
+  <div class="fone" style="right:11cqw;top:3.1cqw"><img src="assets/telas/01-inicio.jpg"></div>
+  </div>
+  <div class="lbl"><span>05 · SOLUÇÃO</span><span>0:32–0:40</span></div>
+  <p class="nota"><b>O celular sobe pela direita</b> com a tela Início real. As três palavras entram em sequência.</p><span class="chip">saída: fusão, o celular permanece</span></div>
+
+<div><div class="cell" id="frame-06">
+  <div class="fone" style="left:11cqw;top:3.1cqw"><img src="assets/telas/05-status-1-aguardando.jpg"></div>
+  <div class="abs" style="left:45cqw;top:15cqw;right:6cqw;text-align:left"><span class="passo">1 DE 4</span><div class="t2 rx" style="margin-top:1.6cqw;font-size:5.4cqw">Acompanhar</div><div class="p cz" style="margin-top:1.6cqw;font-size:2.8cqw">Viagem do dia, etapas do embarque e minutos para a saída.</div></div>
+  </div>
+  <div class="lbl"><span>06 · DEMO: ACOMPANHAR</span><span>0:40–0:54</span></div>
+  <p class="nota"><b>Gravação real do app:</b> toque em "Iniciar jornada de embarque" e a tela de Status aparece.</p><span class="chip">saída: corte dentro do celular</span></div>
+
+<div><div class="cell" id="frame-07">
+  <div class="fone" style="left:11cqw;top:3.1cqw"><img src="assets/telas/06-status-2-troca-plataforma.jpg"></div>
+  <div class="abs" style="left:43cqw;top:8cqw;right:5cqw;text-align:left"><span class="passo" style="background:var(--alerta)">2 DE 4</span><div class="t2" style="margin-top:1.6cqw;color:var(--alerta)">Avisar</div>
+  <img src="assets/telas/alerta.jpg" style="width:100%;margin-top:2cqw;border-radius:1.6cqw;box-shadow:0 1cqw 3cqw rgba(191,54,12,.28)">
+  <div class="p cz" style="margin-top:2cqw;font-size:2.6cqw">O terminal mudou a plataforma. O app avisa na hora, em todas as telas.</div></div>
+  </div>
+  <div class="lbl"><span>07 · DEMO: TROCA DE PLATAFORMA</span><span>0:54–1:08</span></div>
+  <p class="nota"><b>O alerta chega na gravação</b> e sai ampliado do celular para a direita. É o momento central.</p><span class="chip">saída: corte dentro do celular</span></div>
+
+<div><div class="cell" id="frame-08">
+  <div class="fone" style="left:11cqw;top:3.1cqw"><img src="assets/telas/08-mapa-ampliado.jpg"></div>
+  <div class="abs" style="left:45cqw;top:15cqw;right:6cqw;text-align:left"><span class="passo">3 DE 4</span><div class="t2 rx" style="margin-top:1.6cqw;font-size:5.4cqw">Guiar</div><div class="p cz" style="margin-top:1.6cqw;font-size:2.8cqw">Você está aqui. A rota leva até a plataforma certa.</div></div>
+  </div>
+  <div class="lbl"><span>08 · DEMO: MAPA</span><span>1:08–1:22</span></div>
+  <p class="nota"><b>Gravação real:</b> o mapa abre, a rota anima, o zoom aproxima e o dedo arrasta o mapa.</p><span class="chip">saída: corte dentro do celular</span></div>
+
+<div><div class="cell" id="frame-09">
+  <div class="fone" style="left:11cqw;top:3.1cqw"><img src="assets/telas/10-confirmacao.jpg"></div>
+  <div class="abs" style="left:45cqw;top:15cqw;right:6cqw;text-align:left"><span class="passo">4 DE 4</span><div class="t2 rx" style="margin-top:1.6cqw;font-size:5.4cqw">Embarcar</div><div class="p cz" style="margin-top:1.6cqw;font-size:2.8cqw">Bilhete pronto para o totem ou o motorista. Embarque confirmado.</div></div>
+  </div>
+  <div class="lbl"><span>09 · DEMO: VALIDAÇÃO</span><span>1:22–1:34</span></div>
+  <p class="nota"><b>Gravação real:</b> o bilhete aparece e a confirmação de embarque fecha a jornada.</p><span class="chip">saída: fusão</span></div>
+</div>
+
+<div class="ato">Ato 3 · O valor e o futuro (1:34–2:06)</div>
+<div class="grid">
+
+<div><div class="cell roxo" id="frame-10">
+  <div class="c" style="padding:0 8cqw"><div class="sm am">Como foi feito</div>
+  <div class="t2" style="margin-top:2.2cqw">MVP Android em Kotlin e Jetpack Compose.</div>
+  <div class="p" style="margin-top:2.4cqw;opacity:.85">Nesta versão, os eventos do terminal são simulados.</div></div>
+  </div>
+  <div class="lbl"><span>10 · COMO FOI FEITO</span><span>1:34–1:42</span></div>
+  <p class="nota"><b>O título sobe;</b> o aviso de simulação entra logo abaixo e fica parado.</p><span class="chip">saída: fusão</span></div>
+
+<div><div class="cell" id="frame-11">
+  <div class="abs t2 rx" style="left:0;right:0;top:5cqw;text-align:center;font-size:3.6cqw">Valor para quem está no terminal</div>
+  <div class="abs" style="left:5cqw;right:5cqw;top:17cqw;display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw">
+    <div class="card"><div class="sm rx">Passageiro</div><div class="t3" style="margin-top:1.2cqw;font-size:3cqw">Sabe para onde ir e o que mudou.</div></div>
+    <div class="card"><div class="sm rx">Terminal</div><div class="t3" style="margin-top:1.2cqw;font-size:3cqw">A informação chega a quem precisa.</div></div>
+    <div class="card"><div class="sm rx">ClickBus</div><div class="t3" style="margin-top:1.2cqw;font-size:3cqw">O app continua útil depois da compra.</div></div>
+  </div></div>
+  <div class="lbl"><span>11 · VALOR</span><span>1:42–1:52</span></div>
+  <p class="nota"><b>Os três cartões se montam em cascata,</b> da esquerda para a direita. Sem percentuais nem resultados medidos.</p><span class="chip">saída: fusão</span></div>
+
+<div><div class="cell" id="frame-12">
+  <div class="abs" style="left:7cqw;top:6cqw"><div class="sm rx">Próximos passos</div><div class="t2 rx" style="margin-top:.8cqw;font-size:3.6cqw">Do protótipo ao terminal</div></div>
+  <div class="abs" style="left:7cqw;right:7cqw;top:20cqw;display:grid;grid-template-columns:1fr 1fr;gap:1.8cqw">
+    <div class="card" style="padding:2.8cqw 2.6cqw"><div class="t3" style="font-size:2.7cqw"><span class="rx">1</span>&nbsp; Dados do terminal em tempo real</div></div>
+    <div class="card" style="padding:2.8cqw 2.6cqw"><div class="t3" style="font-size:2.7cqw"><span class="rx">2</span>&nbsp; QR do bilhete lido pelo totem</div></div>
+    <div class="card" style="padding:2.8cqw 2.6cqw"><div class="t3" style="font-size:2.7cqw"><span class="rx">3</span>&nbsp; Notificações de troca de plataforma</div></div>
+    <div class="card" style="padding:2.8cqw 2.6cqw"><div class="t3" style="font-size:2.7cqw"><span class="rx">4</span>&nbsp; Mapa real do terminal</div></div>
+  </div></div>
+  <div class="lbl"><span>12 · PRÓXIMOS PASSOS</span><span>1:52–2:00</span></div>
+  <p class="nota"><b>Os quatro itens entram em sequência,</b> na ordem dos números.</p><span class="chip">saída: fusão</span></div>
+
+<div><div class="cell roxo" id="frame-13">
+  <div class="c"><div style="display:flex;align-items:center;gap:2.4cqw"><img src="assets/boardly-icon-round.svg" style="width:11cqw;border-radius:50%"><div class="t1" style="font-size:7cqw">Boardly</div></div>
+  <div class="p" style="margin-top:1.8cqw;font-size:2.4cqw">Do bilhete ao portão de embarque</div>
+  <div class="sm am" style="margin-top:4cqw">Nome do time · integrantes</div>
+  <div class="sm" style="margin-top:1.2cqw;opacity:.7">Challenge ClickBus 2026 · FIAP</div></div>
+  </div>
+  <div class="lbl"><span>13 · ENCERRAMENTO</span><span>2:00–2:06</span></div>
+  <p class="nota"><b>A logo volta</b> e responde à abertura. A linha da equipe só entra se você me passar os nomes.</p><span class="chip">fim</span></div>
+
+<div><div class="cell extra"><b>Mapa de transições</b><br>01 → 02 → 03 → 04 → 05: fusão<br>05 → 06: fusão, o celular permanece na tela<br>06 → 07 → 08 → 09: corte dentro do celular; o texto ao lado troca<br>09 → 10 → 11 → 12 → 13: fusão<br><br><b>Fio condutor:</b> o pin da logo. Ele abre o vídeo, vira o passageiro na cena 3 e fecha na cena 13.</div></div>
+
+<div><div class="cell extra"><b>Paleta e tipografia</b><br>
+<span class="sw" style="background:#6A1B9A"></span>#6A1B9A roxo da marca<br>
+<span class="sw" style="background:#4A148C"></span>#4A148C roxo escuro<br>
+<span class="sw" style="background:#FFCC00"></span>#FFCC00 amarelo de destaque<br>
+<span class="sw" style="background:#BF360C"></span>#BF360C alerta, só na cena 7<br>
+<span class="sw" style="background:#F6F3FA"></span>#F6F3FA fundo claro<br>
+Montserrat 900 (títulos), 700 (rótulos), 500 (texto)<br><br>
+<b>Não fazer:</b> telas do app redesenhadas, números ou percentuais sem pesquisa, brilhos e efeitos sem função.</div></div>
+</div>
+</body>
+</html>

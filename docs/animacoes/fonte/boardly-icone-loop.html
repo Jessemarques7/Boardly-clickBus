@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --purple: #6a1b9a;
+        --purple-light: #8e24aa;
+        --purple-dark: #4a148c;
+        --yellow: #ffcc00;
+        --white: #ffffff;
+        --ground: #f8f9fa;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--ground);
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      #scene {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--ground);
+      }
+      #tile {
+        position: relative;
+        width: 720px;
+        height: 720px;
+        border-radius: 160px;
+        background: linear-gradient(135deg, var(--purple-light) 0%, var(--purple) 45%, var(--purple-dark) 100%);
+        box-shadow: 0 40px 90px rgba(74, 20, 140, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #mark {
+        display: block;
+        width: 430px;
+        height: 553px;
+        overflow: visible;
+      }
+      .ripple {
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="4" data-fps="60" data-width="1080" data-height="1080">
+      <div id="scene" class="clip" data-start="0" data-duration="4" data-track-index="0">
+        <div id="tile">
+          <svg id="mark" viewBox="26 20 56 72" xmlns="http://www.w3.org/2000/svg" aria-label="Logo do Boardly">
+            <ellipse id="ripple-1" class="ripple" cx="54" cy="82.5" rx="11" ry="3" fill="none" stroke="var(--yellow)" stroke-width="0.9" />
+            <ellipse id="ripple-2" class="ripple" cx="54" cy="82.5" rx="11" ry="3" fill="none" stroke="var(--yellow)" stroke-width="0.9" />
+            <ellipse id="ground" cx="54" cy="82.5" rx="11" ry="3" fill="var(--yellow)" />
+            <g id="pin">
+              <path d="M54,82 L37.37,57.11 A20,20 0 1 1 70.63,57.11 Z" fill="var(--white)" stroke="var(--white)" stroke-width="2" stroke-linejoin="round" />
+              <rect x="46.5" y="53" width="3.6" height="4" rx="1" fill="var(--purple)" />
+              <rect x="57.9" y="53" width="3.6" height="4" rx="1" fill="var(--purple)" />
+              <rect x="44.5" y="35.5" width="19" height="19.5" rx="3.5" fill="var(--purple)" />
+              <rect x="48" y="39.5" width="12" height="6.5" rx="1.6" fill="var(--white)" />
+              <circle class="light" cx="48.6" cy="50.6" r="1.6" fill="var(--yellow)" />
+              <circle class="light" cx="59.4" cy="50.6" r="1.6" fill="var(--yellow)" />
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const GROUND = "54 82.5";
+      const CYCLE = 2;
+      const LIFT = -7;
+
+      // Dois ciclos idênticos: o pin sobe, desce e toca o chão; o quadro final emenda no inicial.
+      [0, 1].forEach((i) => {
+        const t = i * CYCLE;
+        const ripple = "#ripple-" + (i + 1);
+        tl.fromTo("#pin", { y: 0 }, { y: LIFT, duration: CYCLE / 2, ease: "sine.inOut", immediateRender: i === 0 }, t);
+        tl.to("#pin", { y: 0, duration: CYCLE / 2, ease: "sine.inOut" }, t + CYCLE / 2);
+        tl.fromTo("#ground", { scale: 1, svgOrigin: GROUND }, { scale: 0.72, svgOrigin: GROUND, duration: CYCLE / 2, ease: "sine.inOut", immediateRender: i === 0 }, t);
+        tl.to("#ground", { scale: 1, svgOrigin: GROUND, duration: CYCLE / 2, ease: "sine.inOut" }, t + CYCLE / 2);
+        // Onda quando o pin toca o chão (início de cada ciclo).
+        tl.fromTo(ripple, { scale: 1, opacity: 0.9, svgOrigin: GROUND }, { scale: 3.2, opacity: 0, svgOrigin: GROUND, duration: 1.3, ease: "power2.out", immediateRender: false }, t);
+        // Faróis piscam no alto do movimento.
+        tl.to(".light", { scale: 1.8, transformOrigin: "50% 50%", duration: 0.14, ease: "power2.out", yoyo: true, repeat: 3 }, t + CYCLE / 2 - 0.28);
+      });
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
